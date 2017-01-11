@@ -17,10 +17,10 @@ Parliament Attendance Log App is pieced together using the following components:
 --------------------------------------------------
 The MongoDB database schema uses four collections:
 
-1. authentication: contains Google Oauth credentials as well as the secret key for the application.
-2. registers: contains all registers as well as their e-mails to validate against Google Oauth login.
-3. parliamentarians: holds all details about parliamentarians such as emergency contacts, e-mail, birthdays, etc.
-4. psessions: Contains all records of parliament sessions. Each record contains a date and associates to the record for its indicated register. Within the record is a list of attendances with house type info if applicable and an association to a parliamentarian record for the attended parliamentarian.
+1. **authentication:** contains Google Oauth credentials as well as the secret key for the application.
+2. **registers:** contains all registers as well as their e-mails to validate against Google Oauth login.
+3. **parliamentarians:** holds all details about parliamentarians such as emergency contacts, e-mail, birthdays, etc.
+4. **psessions:** Contains all records of parliament sessions. Each record contains a date and associates to the record for its indicated register. Within the record is a list of attendances with house type info if applicable and an association to a parliamentarian record for the attended parliamentarian.
 
 
 The schema for the parliamentarian and parliament sessions collections are shown below.
