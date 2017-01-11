@@ -7,12 +7,15 @@ from bson.objectid import ObjectId
 
 class PsessionDAO():
 
+	# Initialises the database documents
 	def __init__(self, database):
 		self.db = database
 		self.parliamentariandb = database.parliamentarians
 		self.registerdb = database.registers
 		self.psessiondb = database.psessions
 
+	# This module calculates the age given the date of birth 
+	# Just an interesting feature to adon
 	def CalcAge(self, birthday):
 		if birthday is None:
 			return ""
@@ -26,6 +29,7 @@ class PsessionDAO():
 		except:
 			return None
 
+	# Querries the database for the parliamentarian registers
 	def GetRegisters(self):
 		co_recs = self.registerdb.find().sort("name",1)
 		if co_recs is None:
@@ -76,6 +80,7 @@ class PsessionDAO():
 		parliamentarians = [parliamentarian['name'] for parliamentarian in matches['result']]
 		return json.dumps(parliamentarians)
 
+	# Registers new session in the parliamentarian records schedule
 	def AddPsessionAttendance(self, psessionid, name, house, method, ptype):		
 		first, last = None, None
 		pieces = re.split("\W+", name)
@@ -115,7 +120,8 @@ class PsessionDAO():
 					}
 				}
 			)
-
+    
+    # Reemoves session in the parliamentarian records schedule
 	def RemovePsessionAttendance(self, psession_id, parliamentarian_id):
 		psessionrec = self.psessiondb.find_one({"_id":ObjectId(psession_id)})
 		attendance = [att for att in psessionrec['attendance']]
@@ -134,7 +140,8 @@ class PsessionDAO():
 					"attendance":attendance
 				}
 			})
-
+    
+    # Registers new session in the parliament schedule
 	def AddPsession(self, register, date, ctype):
 		co_rec = self.registerdb.find_one({'name':register})
 		if co_rec is None:
@@ -159,9 +166,11 @@ class PsessionDAO():
 				
 		self.psessiondb.insert(new_psession)
 	
+	# Removes session in the parliament schedule
 	def RemovePsession(self, psession_id):
 		self.psessiondb.remove({"_id":ObjectId(psession_id)})
-
+    
+    # Querries the database for the session Details based on attendees records
 	def GetPsession(self, psessionid):
 		psessionrec = self.psessiondb.find_one({"_id":ObjectId(psessionid)})
 
@@ -202,7 +211,8 @@ class PsessionDAO():
 			psessiondata["attendance"].append(psessionrow)
 
 		return psessiondata
-
+    
+    # Querries the database for All the Parliament Sessions
 	def GetPsessions(self):
 		dbpsessions = self.psessiondb.find().sort("date",-1)
 		dbregisters = self.registerdb.find()
@@ -218,7 +228,8 @@ class PsessionDAO():
 			} for psessiond in dbpsessions]
 
 		return psessiontable
-
+    
+    # Ability to edit the parliamentarian records
 	def EditParliamentarian(self, name, dob, gender, constituency, emergencycontact, emergencyphone, parliamentarian_id):
 		first, last = None, None
 		pieces = re.split("\W+", name)
@@ -239,7 +250,8 @@ class PsessionDAO():
 		}
 
 		self.parliamentariandb.update({'_id':ObjectId(parliamentarian_id)}, parliamentarian)
-
+    
+    # Add a new parliamentarian to the database
 	def AddParliamentarian(self, name, dob, gender, constituency, emergencycontact, emergencyphone):
 		first, last = None, None
 		pieces = re.split("\W+", name)
@@ -265,7 +277,8 @@ class PsessionDAO():
 			return
 
 		self.parliamentariandb.insert(parliamentarian)
-		
+	
+	# Querries the database for All the Parliamentarians	
 	def GetParliamentarians(self):
 		dbparliamentarians = self.parliamentariandb.find({}).sort("lastname",1)
 
@@ -279,6 +292,7 @@ class PsessionDAO():
 
 		return parliamentariantable
 
+    # Querries the database for the Parliamentarian Details
 	def GetParliamentarian(self, parliamentarian_id, edit=False):
 		stu_rec = self.parliamentariandb.find_one({'_id':ObjectId(parliamentarian_id)})
 
