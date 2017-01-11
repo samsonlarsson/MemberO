@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="header">
+  <h1> Parliament Session <h1>
+    <h2> {{ sessionrec.register }} | {{ sessionrec.type }} | {{ sessionrec.date }} </h2>
+</div>
+<div class="content">
+  <form class="pure-form" action="{{ url_for('session_page', session_id='') }}{{ sessionrec.id }}" method="post">
+    <fieldset>
+      <input name="name" type="text" placeholder="Full Name" id="parliamentarian_entry" required>
+      <input name="payment" type="text" placeholder="Purchased Amount">
+      <select name="method" id="method">
+        <option>cash</option>
+        <option>check</option>
+        <option>credit</option>
+      </select>
+      <select name="type" id="type">
+        <option>free session</option>
+        <option>drop in</option>
+        <option>punched</option>
+        <option>5-session-card</option>
+        <option>10-session-card</option>
+      </select>
+      <button type="submit" class="pure-button pure-button-primary">Mark</button>
+    </fieldset>
+  </form>
+  <table class="pure-table pure-table-horizontal">
+    <thead>
+    <tr>
+      <td>Name</td>
+      <td>Age</td>
+      <td>Gender</td> 
+      <td>Purchase</td> 
+      <td>Purchase Method</td> 
+      <td> </td> 
+    </tr>
+    </thead>
+    <tbody>
+    {% for parliamentarian in sessionrec.attendance %}    
+      <tr>
+        <td><a href="{{ url_for('parliamentarian_page', parliamentarian_id='') }}{{ parliamentarian.id }}">{{ parliamentarian.name }}</a></td>
+        <td>{{ parliamentarian.age }}</td> 
+        <td>{{ parliamentarian.gender }}</td> 
+        <td>{{ parliamentarian.purchased }}</td> 
+        <td>{{ parliamentarian.purchasemethod }}</td> 
+        <td>
+          <form class="pure-form" action="{{ url_for('remove_attendance', session_id='') }}{{ sessionrec.id }}" method="post">
+            <input name="parliamentarian_id" type="hidden" value="{{ parliamentarian.id }}">
+            <button type="submit" class="pure-button pure-button-primary">Delete</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

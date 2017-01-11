@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="header">
+    <h1>Parliamentarian</h1>
+</div>
+<div class="content">
+  <table width="1000px" class="pure-table pure-table-horizontal">
+    <thead>
+      <tr>
+      <td>Name</td>
+      <td>Birthday</td> 
+      <td>Gender</td> 
+      <td>Constituency</td> 
+      <td>Emergency Contact</td> 
+      <td>Emergency Phone</td> 
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ parliamentarian.name }}</td>
+      <td>{{ parliamentarian.dob }}</td> 
+      <td>{{ parliamentarian.gender }}</td> 
+      <td>{{ parliamentarian.constituency }}</td> 
+      <td>{{ parliamentarian.emergencycontact }}</td> 
+      <td>{{ parliamentarian.emergencyphone }}</td> 
+    </tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="header">
+    <h1>Parliamentarians</h1>
+</div>
+<div class="content">
+    <form class="pure-form" action="{{ url_for('parliamentarians_page') }}" method="post">
+      <fieldset>
+        <input name="name" type="text" placeholder="Name" required>
+        <input name="dob" type="text" placeholder="Birth Date" id="datepicker">
+        <input name="constituency" type="constituency" placeholder="Constituency">
+        <input name="emergencycontact" type="text" placeholder="Emergency Contact">
+        <input name="emergencyphone" type="text" placeholder="Emergency Phone">
+        <select name="gender" id="type">
+          <option>Male </option>
+          <option>Female </option>
+        </select>
+        <button type="submit" class="pure-button pure-button-primary">Add New</button>
+      </fieldset>
+    </form>
+  <table width="750px" class="pure-table pure-table-horizontal">
+    <thead>
+      <tr>
+        <td>Name</td>
+        <td>Age</td> 
+        <td>Gender</td> 
+        <td>Constituency</td> 
+      </tr>
+    </thead>
+    <tbody>
+      {% for parliamentarian in parliamentarians %}    
+        <tr>
+          <td><a href="{{ url_for('edit_parliamentarian', parliamentarian_id='') }}{{ parliamentarian.id }}">{{ parliamentarian.name }}</a></td>
+          <td>{{ parliamentarian.age }}</td> 
+          <td>{{ parliamentarian.gender }}</td> 
+          <td>{{ parliamentarian.constituency }}</td> 
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
