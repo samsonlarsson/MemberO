@@ -5,10 +5,12 @@ from flask_oauth import OAuth
 import json
 import os
 
+# basedir = os.path.abspath(os.path.dirname(__file__))
+
 app = Flask(__name__)
 app.debug = True
 
-mongostr = os.environ['MONGODB_URI']
+mongostr = os.environ['OPENSHIFT_MONGODB_DB_URL'] + os.environ['OPENSHIFT_APP_NAME']
 
 con = pymongo.MongoClient(mongostr)
 DB = con.heroku_vfs22s9f
